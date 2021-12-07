@@ -159,32 +159,18 @@ const variantSpells = [
         "spellName": "Bigby's Hand",
         "forms": {
             "Fist": [
-                "Arcane Hand-Fist star 2.webm",
-                "Arcane Hand-Fist star 1.webm",
-                "Arcane Hand-Fist Opaque 2.webm",
-                "Arcane Hand-Fist Opaque 1.webm",
-                "Arcane Hand-fist 2.webm"    
+                /\/Arcane Hand-Fist.*\.webm/,
+                /\/Arcane Hand-fist.*\.webm/
             ],
             "Forceful Hand": [
-                "Arcane Hand-Forceful Hand star 2.webm",
-                "Arcane Hand-Forceful Hand star 1.webm",
-                "Arcane Hand-Forceful hand Opaque 2.webm",
-                "Arcane Hand-Forceful hand Opaque 1.webm",
-                "Arcane Hand-Forceful hand 2.webm",
-                "Arcane Hand-Forceful hand 1.webm"    
+                /\/Arcane Hand-Forceful.*\.webm/
             ],
             "Grasping Hand": [
-                "Arcane Hand-Grasping Hand star 2.webm",
-                "Arcane Hand-grasping hand Opaque 1.webm",
-                "Arcane Hand-Grasping hand 1.webm"    
+                /\/Arcane Hand-Grasping.*\.webm/,
+                /\/Arcane Hand-grasping.*\.webm/
             ],
             "Interposing Hand": [
-                "Arcane Hand-Interposing Hand star2.webm",
-                "Arcane Hand-Interposing Hand star 1.webm",
-                "Arcane Hand-Interposing Hand Opaque 1.webm",
-                "Arcane Hand-Interposing Hand 2.webm",
-                "Arcane Hand-Interposing Hand Opaque 2.webm",
-                "Arcane Hand-Interposing Hand 1.webm"    
+                /\/Arcane Hand-Interposing.*\.webm/
             ]
         }
     },
@@ -289,10 +275,7 @@ Hooks.once("setup", () => {
             await item.setFlag(moduleName, "selectedVariant", randomPathFromForm(item.name, selectedForm));
         });
     });
-});
 
-// Register WMS animations into TMFX overrides
-Hooks.once("ready", async () => {
     // Get filepaths for all animations in asset folder; Note the following code only goes one directory deep
     const assetsDir = await FilePicker.browse(dataSource, dataSource === "forge-bazaar" ? "assets" : game.settings.get(moduleName, "assetsPath"));
     const assetPaths = []
@@ -305,12 +288,10 @@ Hooks.once("ready", async () => {
     // For each spell in listOfSpells, use the filename regexps to find the corresponding paths
     const spells = [];
     const decodedPaths = assetPaths.map(p => decodeURI(p));
-    console.log(decodedPaths)
     for (const spell of listOfSpells) {
         for (const filenameRegexp of spell.filenames) {
             const targets = decodedPaths.filter(p => p.match(filenameRegexp));
-            console.log(targets)
-            if (!spells.find(s => s.spellName === spell.spellName)) {  
+            if (!spells.find(s => s.spellName === spell.spellName)) {
                 spells.push({
                     spellName: spell.spellName,
                     paths: [...targets]
@@ -320,9 +301,6 @@ Hooks.once("ready", async () => {
             }
         }
     }
-
-    console.log(spells)
-
 
     // Create the TMFX overrides object 
     const overrides = {};
@@ -346,7 +324,11 @@ Hooks.once("ready", async () => {
         overrides
     };
     await game.settings.set("tokenmagic", "autoTemplateSettings", newSettings);
+
+
 });
+
+// Register WMS animations into TMFX overrides
 
 
 // When drawing a measuredTemplate, "randomly" select an animation from WMS to use and save a flag with that animation filepath
@@ -381,24 +363,15 @@ function variantWrapper(wrapped, ...args) {
     return template;
 }
 
-// Helper function to convert filepath to filename
-function filenameFromPath(path) {
-    const lastSlashIndex = path.lastIndexOf("/");
-    const endPath = path.slice(lastSlashIndex + 1);
-    const filename = decodeURIComponent(endPath);
-
-    return filename;
-}
 
 // Helper function to get a random filepath based on a selected form 
 function randomPathFromForm(spellName, form) {
-    const forms = variantSpells.find(s => s.spellName === spellName).forms[form];
-    const randomFilename = forms[Math.floor(Math.random() * forms.length)];
+    const formRegexps = variantSpells.find(s => s.spellName === spellName).forms[form];
+    const randomRegexp = formRegexps[Math.floor(Math.random() * formRegexps.length)];
 
     const paths = Object.values(game.settings.get("tokenmagic", "autoTemplateSettings").overrides).find(o => o.target === spellName)?.texture;
     for (const path of paths) {
-        const filename = filenameFromPath(path);
-        if (filename === randomFilename) return path;
+        if (path.match(randomRegexp)) return path;
     }
 
     return null;
