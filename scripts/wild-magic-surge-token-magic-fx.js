@@ -3,52 +3,53 @@ const listOfSpells = [
     {
         "spellName": "Fireball",
         "filenames": [
-            /Fireball.*\.webm/,
-            /Pink.*\.webm/
+            /\/Fireball.*\.webm/,
+            /\/Pink.*\.webm/
         ]
     },
     {
         "spellName": "Flaming Sphere",
         "filenames": [
-            /FireSphere.*\.webm/
+            /\/FireSphere.*\.webm/
         ]
     },
     {
         "spellName": "Wall of Fire",
         "filenames": [
-            /FireWall-Line.*\.webm/
+            /\/FireWall-Line.*\.webm/
         ]
     },
     {
         "spellName": "Wall of Fire - Circle",
         "filenames": [
-            /FireWall.*\.webm/
+            /\/FireWall-Circle.*\.webm/,
+            /\/FireWall-Ring.*\.webm/
         ]
     },
     {
         "spellName": "Flame Strike",
         "filenames": [
-            /Fire Strike.*\.webm/
+            /\/Fire Strike.*\.webm/
         ]
     },
     {
         "spellName": "Meteor Swarm",
         "filenames": [
-            /MeteorV2.*\.webm/,
-            /MeteorV1.*\.webm/,
-            /Meteorv1.*\.webm/
+            /\/MeteorV2.*\.webm/,
+            /\/MeteorV1.*\.webm/,
+            /\/Meteorv1.*\.webm/
         ]
     },
     {
         "spellName": "Aganazzar's Scorcher",
         "filenames": [
-            /Scorcher.*\.webm/
+            /\/Scorcher.*\.webm/
         ]
     },
     {
         "spellName": "Burning Hands",
         "filenames": [
-            /Flaming Hands.*\.webm/
+            /\/Flaming Hands.*\.webm/
         ]
     },
     {
@@ -60,89 +61,94 @@ const listOfSpells = [
     {
         "spellName": "Chromatic Orb - Lightning",
         "filenames": [
-            /Chromatic_Orb.*\.webm/
+            /\/Chromatic_Orb.*\.webm/
         ]
     },
     {
         "spellName": "Faerie Fire",
         "filenames": [
-            /Faerie_Fire.*\.webm/
+            /\/Faerie_Fire.*\.webm/,
+            /\/Faerie Fire.*\.webm/
         ]
     },
     {
         "spellName": "Hypnotic Pattern",
         "filenames": [
-            /hypnotic_pattern.*\.webm/,
-            /Hypnotic_Pattern.*\.webm/
+            /\/hypnotic_pattern.*\.webm/,
+            /\/Hypnotic_Pattern.*\.webm/
         ]
     },
     {
         "spellName": "Shatter",
         "filenames": [
-            /Shatter.*\.webm/,
-            /Shards.*\.webm/
+            /\/Shatter.*\.webm/,
+            /\/Shards.*\.webm/
         ]
     },
     {
         "spellName": "Synaptic Static",
         "filenames": [
-            /Static_Synapses.*\.webm/
+            /\/Static_Synapses.*\.webm/
         ]
     },
     {
         "spellName": "Darkness",
         "filenames": [
-            /Darkness.*\.webm/
+            /\/Darkness.webm/,
+            /\/DarknessTransparent.webm/,
+            /\/Darkness Stars 2.webm/,
         ]
     },
     {
         "spellName": "Stinking Cloud",
         "filenames": [
-            /StinkingCloud.*\.webm/,
-            /Stinking Cloud.*\.webm/
+            /\/StinkingCloud.*\.webm/,
+            /\/Stinking Cloud.*\.webm/
         ]
     },
     {
         "spellName": `Evard's Black Tentacles`,
         "filenames": [
-            /Wild's.*\.webm/,
-            /Wilds.*\.webm/,
+            /\/Wild's.*\.webm/,
+            /\/Wilds.*\.webm/,
         ]
     },
     {
         "spellName": "Cloudkill",
         "filenames": [
-            /Cloudkill.*\.webm/
+            /\/Cloudkill.*\.webm/
         ]
     },
     {
         "spellName": "Call Lightning",
         "filenames": [
-            /Call Lightning.*\.webm/
+            /\/Call Lightning.*\.webm/
         ]
     },
     {
         "spellName": "Chain Lightning",
         "filenames": [
-            /ChainLightning.*\.webm/
+            /\/ChainLightning.*\.webm/
         ]
     },
     {
         "spellName": "Lightning Bolt",
         "filenames": [
-            /LightningBolt.*\.webm/
+            /\/LightningBolt.*\.webm/
         ]
     },
     {
         "spellName": "Storm Sphere",
         "filenames": [
-            /StormSphere.*\.webm/
+            /\/StormSphere eb.*\.webm/,
+            /\/StormSphere pink.*\.webm/,
+            /\/StormSphere.webm/
         ]
     },
     {
         "spellName": "Bigby's Hand",
         "filenames": [
-            /Arcane.*\.webm/
+            /\/Arcane Hand.*\.webm/
         ]
     }
 ];
