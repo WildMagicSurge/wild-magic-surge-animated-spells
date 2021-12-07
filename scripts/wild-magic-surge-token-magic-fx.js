@@ -408,7 +408,7 @@ Hooks.once("ready", async () => {
         overrides[idx] = {
             target: spell.spellName,
             texture: spell.paths,
-            opacity: 0.5,
+            opacity: 1,
             tint: "",
             preset: "NOFX"
         }
@@ -472,7 +472,7 @@ function randomPathFromForm(spellName, form) {
     const forms = variantSpells.find(s => s.spellName === spellName).forms[form];
     const randomFilename = forms[Math.floor(Math.random() * forms.length)];
 
-    const paths = Object.values(game.settings.get("tokenmagic", "autoTemplateSettings").overrides).find(o => o.target === spellName)?.texture;
+    const paths = Object.values(game.settings.get("tokenmagic", "autoTemplateSettings").overrides).find(o => o.target === spellName)?.texture.split(",");
     for (const path of paths) {
         const filename = filenameFromPath(path);
         if (filename === randomFilename) return path;
