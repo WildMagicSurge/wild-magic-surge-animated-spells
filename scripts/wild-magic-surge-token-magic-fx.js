@@ -370,9 +370,9 @@ function randomPathFromForm(spellName, form) {
     const randomRegexp = formRegexps[Math.floor(Math.random() * formRegexps.length)];
 
     const paths = Object.values(game.settings.get("tokenmagic", "autoTemplateSettings").overrides).find(o => o.target === spellName)?.texture;
-    for (const path of paths) {
-        if (path.match(randomRegexp)) return path;
-    }
+    const matchingPaths = paths.filter(p => p.match(randomRegexp));
+    if (!matchingPaths.length) return null;
 
-    return null;
+    const randomPath = matchingPaths[Math.floor(Math.random() * matchingPaths.length)];
+    return randomPath;
 }
