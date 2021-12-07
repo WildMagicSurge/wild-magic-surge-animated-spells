@@ -233,7 +233,7 @@ Hooks.once("init", () => {
     libWrapper.register(moduleName, "game.dnd5e.canvas.AbilityTemplate.fromItem", variantWrapper, "WRAPPER");
 });
 
-Hooks.once("setup", () => {
+Hooks.once("setup", async () => {
     // Determine Forge status
     if (typeof (ForgeVTT) !== "undefined" && ForgeVTT.usingTheForge && !game.settings.get(moduleName, "mode")) dataSource = "forge-bazaar";
 
