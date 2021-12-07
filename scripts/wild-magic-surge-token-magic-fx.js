@@ -237,23 +237,6 @@ const listOfSpells = [
 // Enter spells that have different animation forms --------
 const variantSpells = [
     {
-        "spellName": "Meteor Swarm",
-        "forms": {
-            "Red": [
-                "MeteorV1.webm",
-                "MeteorV2.webm"
-            ],
-            "Green": [
-                "Meteorv1 - Green.webm",
-                "MeteorV2 - Green.webm"
-            ],
-            "Blue": [
-                "Meteorv1 - Blue.webm",
-                "MeteorV2 - Blue.webm"
-            ]
-        }
-    },
-    {
         "spellName": "Bigby's Hand",
         "forms": {
             "Fist": [
@@ -285,7 +268,7 @@ const variantSpells = [
                 "Arcane Hand-Interposing Hand 1.webm"    
             ]
         }
-    }
+    },
 ];
 
 
@@ -320,11 +303,16 @@ Hooks.once("init", () => {
     });
     game.settings.register(moduleName, "animationOpacity", {
         name: "Animation Opacity",
-        hint: "",
+        hint: "Will not affect previously created templates.",
         scope: "world",
         config: true,
         type: Number,
         default: 0.5,
+        range: {
+            min: 0.1,
+            max: 1,
+            step: 0.1
+        },
         onChange: () => window.location.reload()
     });
     game.settings.register(moduleName, "wildCardIdx", {
@@ -417,7 +405,7 @@ Hooks.once("ready", async () => {
         overrides[idx] = {
             target: spell.spellName,
             texture: spell.paths,
-            opacity: 1,
+            opacity: game.settings.get(moduleName, "animationOpacity"),
             tint: "",
             preset: "NOFX"
         }
