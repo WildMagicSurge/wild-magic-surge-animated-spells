@@ -293,8 +293,12 @@ Hooks.once("ready", async () => {
         const spells = [];
         const decodedPaths = assetPaths.map(p => decodeURI(p));
         for (const spell of listOfSpells) {
+            console.log(spell.spellName)
             for (const filenameRegexp of spell.filenames) {
                 const targets = decodedPaths.filter(p => p.match(filenameRegexp));
+                console.log(targets)
+                if (!targets.length) continue;
+
                 if (!spells.find(s => s.spellName === spell.spellName)) {
                     spells.push({
                         spellName: spell.spellName,
@@ -327,7 +331,8 @@ Hooks.once("ready", async () => {
             categories: currentTMFXSettings.categories,
             overrides
         };
-        await game.settings.set("tokenmagic", "autoTemplateSettings", newSettings);    
+        await game.settings.set("tokenmagic", "autoTemplateSettings", newSettings);
+        console.log(`${moduleName} | Token Magic FX overrides set`);
 });
 
 // When drawing a measuredTemplate, "randomly" select an animation from WMS to use and save a flag with that animation filepath
