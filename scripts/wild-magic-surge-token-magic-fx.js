@@ -377,9 +377,9 @@ Hooks.once("setup", () => {
 // Register WMS animations into TMFX overrides
 Hooks.once("ready", async () => {
     // Get filepaths for all animations in asset folder; Note the following code only goes one directory deep
-    const assetsDir = FilePicker.browse(dataSource, dataSource === "forge-bazaar" ? "assets" : game.settings.get(moduleName, "assetsPath"));
+    const assetsDir = await FilePicker.browse(dataSource, dataSource === "forge-bazaar" ? "assets" : game.settings.get(moduleName, "assetsPath"));
     const assetPaths = []
-    if (assetsDir.files.length) assetPaths.push(...assetsDir.files);
+    assetPaths.push(...assetsDir.files);
     for (const dir of assetsDir.dirs) {
         const currentDir = await FilePicker.browse(dataSource, dir);
         assetPaths.push(...currentDir.files);
