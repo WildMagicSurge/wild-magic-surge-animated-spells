@@ -3,233 +3,146 @@ const listOfSpells = [
     {
         "spellName": "Fireball",
         "filenames": [
-            "Fireball.webm",
-            "Fireball 3.webm",
-            "Fireball 2.webm",
-            "FireballHeavySmoke.webm",
-            "Fireball Green.webm",
-            "FireballGreen 2.webm",
-            "Pink_Fireball.webm"
+            /Fireball.*\.webm/,
+            /Pink.*\.webm/
         ]
     },
     {
         "spellName": "Flaming Sphere",
         "filenames": [
-            "FireSphere.webm",
-            "FireSphere -Green.webm"
+            /FireSphere.*\.webm/
         ]
     },
     {
         "spellName": "Wall of Fire",
         "filenames": [
-            "FireWall-Line.webm",
-            "FireWall-Line - Green2.webm"
+            /FireWall-Line.*\.webm/
         ]
     },
     {
         "spellName": "Wall of Fire - Circle",
         "filenames": [
-            "FireWall - Circle2.webm",
-            "FireWall - Ring - Green.webm"
+            /FireWall.*\.webm/
         ]
     },
     {
         "spellName": "Flame Strike",
         "filenames": [
-            "Fire Strike.webm",
-            "Fire Strike - Holy.webm",
-            "Fire Strike - Green.webm"
+            /Fire Strike.*\.webm/
         ]
     },
     {
         "spellName": "Meteor Swarm",
         "filenames": [
-            "MeteorV1.webm",
-            "MeteorV2.webm",
-            "MeteorV2 - Green.webm",
-            "MeteorV2 - Blue.webm",
-            "Meteorv1 - Blue.webm",
-            "Meteorv1 - Green.webm"
+            /MeteorV2.*\.webm/,
+            /MeteorV1.*\.webm/,
+            /Meteorv1.*\.webm/
         ]
     },
     {
         "spellName": "Aganazzar's Scorcher",
         "filenames": [
-            "Scorcher.webm",
-            "Scorcher - Green.webm",
-            "Scorcher - Blue.webm"
+            /Scorcher.*\.webm/
         ]
     },
     {
         "spellName": "Burning Hands",
         "filenames": [
-            "Flaming Hands with template.webm",
-            "Flaming Hands with template - Green.webm",
-            "Flaming Hands with flaming border.webm",
-            "Flaming Hands with flaming border - Blue.webm",
-            "Flaming Hands - Simple Border Small.webm",
-            "Flaming Hands - Simple Border Small - Green.webm",
-            "Flaming Hands - Fire Border Small.webm",
-            "Flaming Hands - Fire Border Small - Green.webm"
+            /Flaming Hands.*\.webm/
         ]
     },
     {
         "spellName": "Melf's Minute Meteors",
         "filenames": [
-            "3 Spinning Meteors.webm",
-            "3 Spinning Meteors - Green.webm",
-            "2 Spinning Meteors.webm",
-            "2 Spinning Meteors - Green.webm"
+            /.*Spinning Meteors.*\.webm/
         ]
     },
     {
         "spellName": "Chromatic Orb - Lightning",
         "filenames": [
-            "Chromatic_Orb(Lightning).webm", "Chromatic_Orb-Red(Lightning).webm",
-            "Chromatic_Orb_Yellow(Lightning).webm"
+            /Chromatic_Orb.*\.webm/
         ]
     },
     {
         "spellName": "Faerie Fire",
         "filenames": [
-            "Faerie_Fire.webm",
-            "Faerie_Fire 3.webm",
-            "Faerie_Fire 2.webm"
+            /Faerie_Fire.*\.webm/
         ]
     },
     {
         "spellName": "Hypnotic Pattern",
         "filenames": [
-            "hypnotic_pattern.webm",
-            "Hypnotic_Pattern 3.webm",
-            "Hypnotic_Pattern 2.webm"
+            /hypnotic_pattern.*\.webm/,
+            /Hypnotic_Pattern.*\.webm/
         ]
     },
     {
         "spellName": "Shatter",
         "filenames": [
-            "Shatter3.webm",
-            "Shatter2.webm",
-            "Shatter1.webm",
-            "Shatter_Red.webm",
-            "Shards_Shatter Yellow.webm",
-            "Shatter_Blue.webm"
+            /Shatter.*\.webm/,
+            /Shards.*\.webm/
         ]
     },
     {
         "spellName": "Synaptic Static",
         "filenames": [
-            "Static_Synapses3.webm",
-            "Static_Synapses2.webm",
-            "Static_Synapses.webm"
+            /Static_Synapses.*\.webm/
         ]
     },
     {
         "spellName": "Darkness",
         "filenames": [
-            "DarknessTransparent.webm",
-            "Darkness.webm",
-            "Darkness Stars 2.webm"
+            /Darkness.*\.webm/
         ]
     },
     {
         "spellName": "Stinking Cloud",
         "filenames": [
-            "StinkingCloud.webm",
-            "StinkingCloud_Transparent.webm",
-            "StinkingCloud_Spores 2.webm",
-            "StinkingCloud_Spores 1.webm",
-            "Stinking Cloud Border Spores Transparent 2.webm",
-            "Stinking Cloud Border Spores Transparent 1.webm"
+            /StinkingCloud.*\.webm/,
+            /Stinking Cloud.*\.webm/
         ]
     },
     {
         "spellName": `Evard's Black Tentacles`,
         "filenames": [
-            "Wilds Black Tentacles Border.webm",
-            "Wild's Teal Tentacles.webm",
-            "Wild's Teal Tentacles Ink.webm",
-            "Wild's Teal Tentacles Border.webm",
-            "Wild's Purple Tentacles.webm",
-            "Wild's Purple Tentacles Ink.webm",
-            "Wild's Purple Tentacles Border.webm",
-            "Wild's Black Tentacles.webm",
-            "Wild's Black Tentacles Ink.webm"
+            /Wild's.*\.webm/,
+            /Wilds.*\.webm/,
         ]
     },
     {
         "spellName": "Cloudkill",
         "filenames": [
-            "Cloudkill.webm",
-            "Cloudkill_Spores1.webm",
-            "Cloudkill Border Transparent.webm",
-            "Cloudkill_Spores2.webm",
-            "Cloudkill Border Spores Transparent 2.webm",
-            "Cloudkill Border Spores Transparent 1.webm"
+            /Cloudkill.*\.webm/
         ]
     },
     {
         "spellName": "Call Lightning",
         "filenames": [
-            "Call Lightning - Electric Blue.webm",
-            "Call Lightning - Pink.webm",
-            "Call Lightning - Purple.webm"
+            /Call Lightning.*\.webm/
         ]
     },
     {
         "spellName": "Chain Lightning",
         "filenames": [
-            "ChainLightning - Pink.webm",
-            "ChainLightning-Electric Blue.webm"
+            /ChainLightning.*\.webm/
         ]
     },
     {
         "spellName": "Lightning Bolt",
         "filenames": [
-            "LightningBoltV2 - Yellow.webm",
-            "LightningBoltV2 - Pink.webm",
-            "LightningBoltV2 - EB.webm",
-            "LightningBoltV2 - Cyan.webm",
-            "LightningBoltV1.webm",
-            "LightningBolt EB.webm",
-            "LightningBolt - Pink.webm",
-            "LightningBolt - Cyan.webm"
+            /LightningBolt.*\.webm/
         ]
     },
     {
         "spellName": "Storm Sphere",
         "filenames": [
-            "StormSphere.webm",
-            "StormSphere pink.webm",
-            "StormSphere eb.webm"
+            /StormSphere.*\.webm/
         ]
     },
     {
         "spellName": "Bigby's Hand",
         "filenames": [
-            "Arcane Hand-Fist star 2.webm",
-            "Arcane Hand-Fist star 1.webm",
-            "Arcane Hand-Fist Opaque 2.webm",
-            "Arcane Hand-Fist Opaque 1.webm",
-            "Arcane Hand-fist 2.webm",
-
-            "Arcane Hand-Forceful Hand star 2.webm",
-            "Arcane Hand-Forceful Hand star 1.webm",
-            "Arcane Hand-Forceful hand Opaque 2.webm",
-            "Arcane Hand-Forceful hand Opaque 1.webm",
-            "Arcane Hand-Forceful hand 2.webm",
-            "Arcane Hand-Forceful hand 1.webm",
-
-            "Arcane Hand-Grasping Hand star 2.webm",
-            "Arcane Hand-grasping hand Opaque 1.webm",
-            "Arcane Hand-Grasping hand 1.webm",
-
-            "Arcane Hand-Interposing Hand star2.webm",
-            "Arcane Hand-Interposing Hand star 1.webm",
-            "Arcane Hand-Interposing Hand Opaque 1.webm",
-            "Arcane Hand-Interposing Hand 2.webm",
-            "Arcane Hand-Interposing Hand Opaque 2.webm",
-            "Arcane Hand-Interposing Hand 1.webm"
+            /Arcane.*\.webm/
         ]
     }
 ];
@@ -383,21 +296,27 @@ Hooks.once("ready", async () => {
         assetPaths.push(...currentDir.files);
     }
 
-    // For each path, get the filename and find name of corresponding spell based on listOfSpells
+    // For each spell in listOfSpells, use the filename regexps to find the corresponding paths
     const spells = [];
-    for (const path of assetPaths) {
-        const filename = filenameFromPath(path);
-        const spellName = listOfSpells.find(s => s.filenames.includes(filename))?.spellName;
-        if (!spellName) continue;
-
-        // Group together paths based on assigned spell name
-        if (!spells.find(s => s.spellName === spellName)) {
-            spells.push({
-                spellName,
-                paths: [path]
-            });
-        } else spells.find(s => s.spellName === spellName).paths.push(path);
+    const decodedPaths = assetPaths.map(p => decodeURI(p));
+    console.log(decodedPaths)
+    for (const spell of listOfSpells) {
+        for (const filenameRegexp of spell.filenames) {
+            const targets = decodedPaths.filter(p => p.match(filenameRegexp));
+            console.log(targets)
+            if (!spells.find(s => s.spellName === spell.spellName)) {  
+                spells.push({
+                    spellName: spell.spellName,
+                    paths: [...targets]
+                });
+            } else {
+                spells.find(s => s.spellName === spell.spellName).paths.push(...targets);
+            }
+        }
     }
+
+    console.log(spells)
+
 
     // Create the TMFX overrides object 
     const overrides = {};
