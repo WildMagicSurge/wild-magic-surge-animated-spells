@@ -318,6 +318,15 @@ Hooks.once("init", () => {
         filePicker: true,
         onChange: () => window.location.reload()
     });
+    game.settings.register(moduleName, "animationOpacity", {
+        name: "Animation Opacity",
+        hint: "",
+        scope: "world",
+        config: true,
+        type: Number,
+        default: 0.5,
+        onChange: () => window.location.reload()
+    });
     game.settings.register(moduleName, "wildCardIdx", {
         name: "",
         scope: "world",
