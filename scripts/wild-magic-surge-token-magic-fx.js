@@ -335,6 +335,7 @@ Hooks.once("setup", () => {
     // For spells with selectable forms, add a select element to AbilityUseDialog
     Hooks.on("renderAbilityUseDialog", async (abilityUseDialog, html, abilityUseDialogData) => {
         const { item } = abilityUseDialog;
+        if (item.getFlag(moduleName, "selectedVariant")) await item.unsetFlag(moduleName, "selectedVariant");
         const spell = variantSpells.find(s => s.spellName === item.name);
         // If spell is not found in variantSpells, return
         if (!spell) return;
