@@ -184,6 +184,7 @@ import { fixPath } from '/modules/tokenmagic/module/tokenmagic.js';
 
 const moduleName = "wild-magic-surge-token-magic-fx";
 let dataSource = "data";
+const overrides = {};
 
 
 Hooks.once("init", () => {
@@ -234,7 +235,7 @@ Hooks.once("init", () => {
     libWrapper.register(moduleName, "game.dnd5e.canvas.AbilityTemplate.fromItem", variantWrapper, "WRAPPER");
 });
 
-Hooks.once("setup", () => {
+Hooks.once("setup", async () => {
     // Determine Forge status
     if (typeof (ForgeVTT) !== "undefined" && ForgeVTT.usingTheForge && !game.settings.get(moduleName, "mode")) dataSource = "forge-bazaar";
 
@@ -276,63 +277,59 @@ Hooks.once("setup", () => {
             await item.setFlag(moduleName, "selectedVariant", randomPathFromForm(item.name, selectedForm));
         });
     });
+
+    // Get filepaths for all animations in asset folder; Note the following code only searches one directory deep
+    const assetsDir = await FilePicker.browse(dataSource, dataSource === "forge-bazaar" ? "assets" : game.settings.get(moduleName, "assetsPath"));
+    const assetPaths = []
+    assetPaths.push(...assetsDir.files);
+    for (const dir of assetsDir.dirs) {
+        const currentDir = await FilePicker.browse(dataSource, dir);
+        assetPaths.push(...currentDir.files);
+    }
+
+    // For each spell in listOfSpells, use the filename regexps to find the corresponding paths
+    const spells = [];
+    const decodedPaths = assetPaths.map(p => decodeURI(p));
+    for (const spell of listOfSpells) {
+        for (const filenameRegexp of spell.filenames) {
+            const targets = decodedPaths.filter(p => p.match(filenameRegexp));
+            if (!targets.length) continue;
+
+            if (!spells.find(s => s.spellName === spell.spellName)) {
+                spells.push({
+                    spellName: spell.spellName,
+                    paths: [...targets]
+                });
+            } else {
+                spells.find(s => s.spellName === spell.spellName).paths.push(...targets);
+            }
+        }
+    }
+
+    // Create the TMFX overrides object 
+    let idx = 0;
+    for (const spell of spells) {
+        overrides[idx] = {
+            target: spell.spellName,
+            texture: spell.paths,
+            opacity: game.settings.get(moduleName, "animationOpacity"),
+            tint: "",
+            preset: "NOFX"
+        }
+
+        idx++;
+    }
 });
 
-// Register WMS animations into TMFX overrides
 Hooks.once("ready", async () => {
-        // Get filepaths for all animations in asset folder; Note the following code only searches one directory deep
-        const assetsDir = await FilePicker.browse(dataSource, dataSource === "forge-bazaar" ? "assets" : game.settings.get(moduleName, "assetsPath"));
-        const assetPaths = []
-        assetPaths.push(...assetsDir.files);
-        for (const dir of assetsDir.dirs) {
-            const currentDir = await FilePicker.browse(dataSource, dir);
-            assetPaths.push(...currentDir.files);
-        }
-    
-        // For each spell in listOfSpells, use the filename regexps to find the corresponding paths
-        const spells = [];
-        const decodedPaths = assetPaths.map(p => decodeURI(p));
-        for (const spell of listOfSpells) {
-            console.log(spell.spellName)
-            for (const filenameRegexp of spell.filenames) {
-                const targets = decodedPaths.filter(p => p.match(filenameRegexp));
-                console.log(targets)
-                if (!targets.length) continue;
-
-                if (!spells.find(s => s.spellName === spell.spellName)) {
-                    spells.push({
-                        spellName: spell.spellName,
-                        paths: [...targets]
-                    });
-                } else {
-                    spells.find(s => s.spellName === spell.spellName).paths.push(...targets);
-                }
-            }
-        }
-    
-        // Create the TMFX overrides object 
-        const overrides = {};
-        let idx = 0;
-        for (const spell of spells) {
-            overrides[idx] = {
-                target: spell.spellName,
-                texture: spell.paths,
-                opacity: game.settings.get(moduleName, "animationOpacity"),
-                tint: "",
-                preset: "NOFX"
-            }
-    
-            idx++;
-        }
-    
-        // Register the newly created overrides object in TMFX settings
-        const currentTMFXSettings = game.settings.get("tokenmagic", "autoTemplateSettings");
-        const newSettings = {
-            categories: currentTMFXSettings.categories,
-            overrides
-        };
-        await game.settings.set("tokenmagic", "autoTemplateSettings", newSettings);
-        console.log(`${moduleName} | Token Magic FX overrides set`);
+    // Register the newly created overrides object in TMFX settings
+    const currentTMFXSettings = game.settings.get("tokenmagic", "autoTemplateSettings");
+    const newSettings = {
+        categories: currentTMFXSettings.categories,
+        overrides
+    };
+    await game.settings.set("tokenmagic", "autoTemplateSettings", newSettings);
+    console.log(`${moduleName} | Token Magic FX overrides set`);
 });
 
 // When drawing a measuredTemplate, "randomly" select an animation from WMS to use and save a flag with that animation filepath
