@@ -20,6 +20,13 @@ const listOfSpells = [
         ]
     },
     {
+        "spellName": "Cone of Cold",
+        "filenames": [
+            /\/Cone_of_Cold*\.webm/,
+            /\/Cone_of_Cold_Ice.*\.webm/
+        ]
+    },
+    {
         "spellName": "Wall of Fire - Circle",
         "filenames": [
             /\/FireWall-Circle.*\.webm/,
@@ -107,7 +114,7 @@ const listOfSpells = [
         ]
     },
     {
-        "spellName": `Evard's Black Tentacles`,
+        "spellName": "Black Tentacles",
         "filenames": [
             /\/Wild's.*\.webm/,
             /\/Wilds.*\.webm/,
@@ -126,7 +133,7 @@ const listOfSpells = [
         ]
     },
     {
-        "spellName": "Chain Lightning",
+        "spellName": "Chain Lightning-WMS",
         "filenames": [
             /\/ChainLightning.*\.webm/
         ]
@@ -146,7 +153,7 @@ const listOfSpells = [
         ]
     },
     {
-        "spellName": "Bigby's Hand",
+        "spellName": "Arcane Hand",
         "filenames": [
             /\/Arcane Hand.*\.webm/
         ]
@@ -156,7 +163,7 @@ const listOfSpells = [
 // Enter spells that have different animation forms --------
 const variantSpells = [
     {
-        "spellName": "Bigby's Hand",
+        "spellName": "Arcane Hand",
         "forms": {
             "Fist": [
                 /\/Arcane Hand-Fist.*\.webm/,
