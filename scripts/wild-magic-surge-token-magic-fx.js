@@ -107,7 +107,7 @@ const listOfSpells = [
         ]
     },
     {
-        "spellName": `Evard's Black Tentacles`,
+        "spellName": "Black Tentacles",
         "filenames": [
             /\/Wild's.*\.webm/,
             /\/Wilds.*\.webm/,
@@ -146,7 +146,7 @@ const listOfSpells = [
         ]
     },
     {
-        "spellName": "Bigby's Hand",
+        "spellName": "Arcane Hand",
         "filenames": [
             /\/Arcane Hand.*\.webm/
         ]
@@ -156,7 +156,7 @@ const listOfSpells = [
 // Enter spells that have different animation forms --------
 const variantSpells = [
     {
-        "spellName": "Bigby's Hand",
+        "spellName": "Arcane Hand",
         "forms": {
             "Fist": [
                 /\/Arcane Hand-Fist.*\.webm/,
