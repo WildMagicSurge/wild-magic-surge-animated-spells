@@ -1,11 +1,11 @@
 {
-    "name": "wild-magic-surge-token-magic-fx",
-    "title": "Wild Magic Surge FX for Token Magic FX",
+    "name": "wild-magic-surge-companion-module",
+    "title": "Wild Magic Surge Companion Module for Animated Spell Tokens",
     "description": "",
     "author": "enso#0361",
     "version": "1.0.0",
     "minimumCoreVersion": "0.8.1",
-    "compatibleCoreVersion": "0.8.9",
+    "compatibleCoreVersion": "0.9.0",
     "system": [
         "dnd5e"
     ],
