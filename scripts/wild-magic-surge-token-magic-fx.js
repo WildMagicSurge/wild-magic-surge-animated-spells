@@ -8,7 +8,7 @@ const overrides = {};
 
 Hooks.once("init", () => {
   // Register settings
-  registerSettings();
+  registerSettings(moduleName);
 
   // Patch methods
   libWrapper.register(

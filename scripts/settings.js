@@ -1,4 +1,4 @@
-export const registerSettings = function () {
+export const registerSettings = function (moduleName) {
   game.settings.register(moduleName, "mode", {
     name: "Self-Hosting (Legacy Assets)",
     hint: "If enabled, assets will be loaded from folder selected below.",
