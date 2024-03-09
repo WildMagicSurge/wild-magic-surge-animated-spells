@@ -1,24 +1,28 @@
 {
-    "name": "wild-magic-surge-companion-module",
-    "title": "Wild Magic Surge Companion Module for Animated Spell Tokens",
-    "description": "",
-    "author": "enso#0361",
-    "version": "1.0.0",
-    "minimumCoreVersion": "0.8.1",
-    "compatibleCoreVersion": "9",
-    "system": [
-        "dnd5e"
+  "name": "wild-magic-surge-companion-module",
+  "title": "Wild Magic Surge Companion Module for Animated Spell Tokens",
+  "description": "",
+  "author": "enso#0361",
+  "version": "1.0.0",
+  "minimumCoreVersion": "10",
+  "compatibleCoreVersion": "11",
+  "relationships": {
+    "requires": [
+      {
+        "id": "tokenmagic",
+        "type": "module"
+      }
     ],
-    "dependencies": [
-        {
-            "name": "tokenmagic",
-            "type": "module"
-        }
-    ],
-    "esmodules": [
-        "./scripts/wild-magic-surge-token-magic-fx.js"
-    ],
-    "url": "https://github.com/jessev14/wild-magic-surge-token-magic-fx",
-    "manifest": "https://github.com/jessev14/wild-magic-surge-token-magic-fx/releases/latest/download/module.json",
-    "download": "https://github.com/jessev14/wild-magic-surge-token-magic-fx/releases/download/1.0.0/WMS.zip"
+    "systems": [
+      {
+        "compatibility": {},
+        "id": "dnd5e",
+        "type": "system"
+      }
+    ]
+  },
+  "esmodules": ["./scripts/wild-magic-surge-token-magic-fx.js"],
+  "url": "https://github.com/jessev14/wild-magic-surge-token-magic-fx",
+  "manifest": "https://github.com/jessev14/wild-magic-surge-token-magic-fx/releases/latest/download/module.json",
+  "download": "https://github.com/jessev14/wild-magic-surge-token-magic-fx/releases/download/1.0.0/WMS.zip"
 }
