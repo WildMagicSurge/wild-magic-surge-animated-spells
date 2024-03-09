@@ -1,6 +1,7 @@
 // Module code --------
 import { listOfSpells, variantSpells } from "./legacy/mapping.js";
 import { registerSettings } from "./settings.js";
+import { fixPath } from "./utils.js";
 
 const moduleName = "wild-magic-surge-companion-module";
 let dataSource = "data";
