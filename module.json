@@ -4,8 +4,11 @@
   "description": "Auto-magical integration for Wild Magic Surge Animated Spells for TokenMagicFX! Make your spells shine!",
   "author": "Wild Magic Surge",
   "version": "1.0.0",
-  "minimumCoreVersion": "10",
-  "compatibleCoreVersion": "11",
+  "compatibility": {
+    "maximum": 11,
+    "minimum": 11,
+    "verified": 11
+  },
   "relationships": {
     "requires": [
       {
@@ -31,11 +34,11 @@
   },
   "media": [
     {
-      "link": "https://www.dropbox.com/scl/fi/xqlaocotl5e2qmc8fprbe/Wild-Magic-Surge-Banner.png?rlkey=onp7u38e0m3blrxr9t495hbtj&dl=1",
+      "url": "https://www.dropbox.com/scl/fi/xqlaocotl5e2qmc8fprbe/Wild-Magic-Surge-Banner.png?rlkey=onp7u38e0m3blrxr9t495hbtj&dl=1",
       "type": "cover"
     }
   ],
-  "esmodules": ["./scripts/wild-magic-surge-token-magic-fx.js"],
+  "esmodules": ["scripts/wild-magic-surge-token-magic-fx.js"],
   "url": "https://sleekbio.com/wildmagicsurge",
   "manifest": "https://github.com/jessev14/wild-magic-surge-token-magic-fx/releases/latest/download/module.json",
   "download": "https://github.com/jessev14/wild-magic-surge-token-magic-fx/releases/download/1.0.0/WMS.zip"

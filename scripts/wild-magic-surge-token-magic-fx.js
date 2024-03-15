@@ -1,12 +1,11 @@
 // Module code --------
+import { loadModuleAssets } from "../free-assets/asset-loader.js";
 import { listOfSpells, variantSpells } from "./legacy/mapping.js";
 import { registerSettings } from "./settings.js";
 import { fixPath } from "./utils.js";
 
 const moduleName = "wild-magic-surge-companion-module";
 let dataSource = "data";
-const overrides = {};
-
 Hooks.once("init", () => {
   // Register settings
   registerSettings(moduleName);
@@ -27,6 +26,10 @@ Hooks.once("init", () => {
 });
 
 Hooks.once("setup", async () => {
+  console.log(`${moduleName} | Initializing...`);
+  // setup storage for spell overrides
+  if (!CONFIG.WildMagicSurge) CONFIG.WildMagicSurge = { overrides: {} };
+
   if (
     typeof ForgeVTT !== "undefined" &&
     ForgeVTT.usingTheForge &&
@@ -92,12 +95,14 @@ Hooks.once("setup", async () => {
 
   // Get filepaths for all animations in asset folder; Note the following code only searches one directory deep
 
-  const assetsDir = await FilePicker.browse(
-    dataSource,
+  const searchDirectory =
     dataSource === "forge-bazaar"
       ? "assets"
-      : game.settings.get(moduleName, "assetsPath")
+      : game.settings.get(moduleName, "assetsPath");
+  console.log(
+    `${moduleName} | Searching for assets in "${dataSource}/${searchDirectory}"...`
   );
+  const assetsDir = await FilePicker.browse(dataSource, searchDirectory);
   const assetPaths = [];
   assetPaths.push(...assetsDir.files);
   for (const dir of assetsDir.dirs) {
@@ -125,20 +130,29 @@ Hooks.once("setup", async () => {
       }
     }
   }
-
-  // Create the TMFX overrides object
-  let idx = 0;
+  console.log(`${moduleName} | Found ${spells.length} assets`);
   for (const spell of spells) {
-    overrides[idx] = {
-      target: spell.spellName,
-      texture: spell.paths,
-      opacity: game.settings.get(moduleName, "animationOpacity"),
-      tint: "",
-      preset: "NOFX",
-    };
-
-    idx++;
+    // find the spell by name in the overrides object
+    let existing = Object.values(CONFIG.WildMagicSurge.overrides).find(
+      (o) => o.target === spell.spellName
+    );
+    if (existing) {
+      // if the spell is found, merge the new paths with the existing paths
+      existing.texture = [...existing.texture, ...spell.paths];
+    } else {
+      let idx = Object.keys(CONFIG.WildMagicSurge.overrides).length;
+      CONFIG.WildMagicSurge.overrides[idx] = {
+        target: spell.spellName,
+        texture: spell.paths,
+        opacity: game.settings.get(moduleName, "animationOpacity"),
+        tint: "",
+        preset: "NOFX",
+      };
+    }
   }
+  console.log(`${moduleName} | Loaded ${spells.length} from assets`);
+
+  loadModuleAssets();
 });
 
 Hooks.once("ready", async () => {
@@ -149,10 +163,13 @@ Hooks.once("ready", async () => {
   );
   const newSettings = {
     categories: currentTMFXSettings.categories,
-    overrides,
+    overrides: CONFIG.WildMagicSurge.overrides,
   };
   await game.settings.set("tokenmagic", "autoTemplateSettings", newSettings);
-  console.log(`${moduleName} | Token Magic FX overrides set`);
+  const spellCount = Object.keys(CONFIG.WildMagicSurge.overrides).length;
+  console.log(
+    `${moduleName} | Token Magic FX overrides set for ${spellCount} spells`
+  );
 });
 
 // When drawing a measuredTemplate, "randomly" select an animation from WMS to use and save a flag with that animation filepath
