@@ -6,11 +6,14 @@ import { fixPath } from "./utils.js";
 
 const moduleName = "wild-magic-surge-companion-module";
 let dataSource = "data";
+console.log(`${moduleName} | Hello...`);
 Hooks.once("init", () => {
   // Register settings
+  console.log(`${moduleName} | Registering Settings...`);
   registerSettings(moduleName);
 
   // Patch methods
+  console.log(`${moduleName} | Patching Methods...`);
   libWrapper.register(
     moduleName,
     "MeasuredTemplate.prototype.draw",
@@ -176,16 +179,23 @@ Hooks.once("ready", async () => {
 // If the flag is already present, just use that filepath (for maintaining consistency after reload and for variantSpells)
 function wildCardWrapper(wrapped, ...args) {
   const savedWildCard = this.document.getFlag(moduleName, "wildCardTexture");
-  if (savedWildCard) this.data.texture = savedWildCard;
-  else if (this.data.texture?.includes(",")) {
-    const alts = this.data.texture.split(",");
+  console.log(`${moduleName} | Saved wildCard: ${savedWildCard}`);
+  if (!!savedWildCard) this.document.texture = savedWildCard;
+  else if (this.document.texture?.includes(",")) {
+    console.log(`${moduleName} | Randomizing texture...`);
+    const alts = this.document.texture.split(",");
     let currentWildCardIdx = game.settings.get(moduleName, "wildCardIdx");
 
     if (currentWildCardIdx > alts.length - 1) currentWildCardIdx = 0;
-    this.data.texture = fixPath(alts[currentWildCardIdx]);
+    this.document.texture = fixPath(alts[currentWildCardIdx]);
+    console.log(`${moduleName} | New texture: ${this.document.texture}`);
 
     if (game.users.find((u) => u.isGM && u.active).id === game.user.id) {
-      this.document.setFlag(moduleName, "wildCardTexture", this.data.texture);
+      this.document.setFlag(
+        moduleName,
+        "wildCardTexture",
+        this.document.texture
+      );
       game.settings.set(moduleName, "wildCardIdx", currentWildCardIdx + 1);
     }
   }

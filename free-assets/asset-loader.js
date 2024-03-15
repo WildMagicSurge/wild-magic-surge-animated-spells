@@ -1,13 +1,12 @@
 import { assets } from "./asset-mapping.js";
 import { CONFIGURATION } from "./config.js";
 
-function fixFilename(filename, assetPath) {
-  let filename = `modules/${CONFIGURATION.moduleName}/${
+function fixFilename(filename) {
+  let fixedFilename = `modules/${CONFIGURATION.moduleName}/${
     CONFIGURATION.assetPath || ""
   }/${filename}`;
   // Replace all instances of double slashes with single slashes
-  filename = filename.replace(/\/\//g, "/");
-  return filename;
+  return fixedFilename.replace(/\/\//g, "/");
 }
 
 export function loadModuleAssets() {
@@ -17,9 +16,7 @@ export function loadModuleAssets() {
   for (const spell of assets) {
     // fix spell filenames by adding CONFIGURATION.assetPath to each filename
     console.log(spell.filenames);
-    spell.filenames = spell.filenames.map((filename) =>
-      fixFilename(filename, CONFIGURATION.assetPath)
-    );
+    spell.filenames = spell.filenames.map((filename) => fixFilename(filename));
     let existing = Object.values(CONFIG.WildMagicSurge.overrides).find(
       (o) => o.target === spell.spellName
     );
