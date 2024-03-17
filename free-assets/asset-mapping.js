@@ -20,7 +20,7 @@ export const assets = [
     filenames: ["assets/fireball.webm"],
   },
   {
-    spellName: "Flame Wall",
+    spellName: "Wall of Fire",
     filenames: ["assets/flame_wall_green_1.webm"],
   },
   {
