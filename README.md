@@ -4,3 +4,6 @@ This module implements Wild Magic Surge spell animations using Token Magic FX.
 
 Join the Patreon to be help grow the module and vote on updates and spells.
 https://www.patreon.com/WildMagicSurge
+
+Website with store links and Youtube samples.
+https://sleekbio.com/wildmagicsurge
