@@ -1,9 +1,6 @@
-# Wild Magic Surge FX
+Wild Magic Surge Companion Module for Animated Spell Tokens
 
 This module implements Wild Magic Surge spell animations using Token Magic FX.
 
-
-## Usage
-For games hosted on the Forge, no setup is necessary other than enabling the WMS asset packs.
-
-For self-hosted games, enable the Self-Hosting module setting and set the Asset Folder setting to the folder containg the WMS asset pack folders.
+Join the Patreon to be help grow the module and vote on updates and spells.
+https://www.patreon.com/WildMagicSurge
