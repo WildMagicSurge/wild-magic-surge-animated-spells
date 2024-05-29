@@ -23,7 +23,7 @@ export function loadModuleAssets() {
         target: spell.spellName,
         texture: filename,
         opacity: game.settings.get(
-          CONFIGURATION.moduleName,
+          "wild-magic-surge-companion-module",
           "animationOpacity"
         ),
         tint: "",
