@@ -17,22 +17,18 @@ export function loadModuleAssets() {
     // fix spell filenames by adding CONFIGURATION.assetPath to each filename
     console.log(spell.filenames);
     spell.filenames = spell.filenames.map((filename) => fixFilename(filename));
-    let existing = Object.values(CONFIG.WildMagicSurge.overrides).find(
-      (o) => o.target === spell.spellName
-    );
-    if (existing) {
-      existing.texture = [...existing.texture, ...spell.filenames];
-    } else {
+    for (const filename of spell.filenames) {
       let idx = Object.keys(CONFIG.WildMagicSurge.overrides).length;
       CONFIG.WildMagicSurge.overrides[idx] = {
         target: spell.spellName,
-        texture: spell.filenames,
+        texture: filename,
         opacity: game.settings.get(
           CONFIGURATION.moduleName,
           "animationOpacity"
         ),
         tint: "",
         preset: "NOFX",
+        tag: "wild-magic-surge",
       };
     }
   }

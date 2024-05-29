@@ -47,21 +47,46 @@ Hooks.once("setup", async () => {
       const { item } = abilityUseDialog;
       if (item.getFlag(moduleName, "selectedVariant"))
         await item.unsetFlag(moduleName, "selectedVariant");
-      const spell = variantSpells.find((s) => s.spellName === item.name);
-      // If spell is not found in variantSpells, return
-      if (!spell) return;
-      // If spell is not found in TMFX overrides, return
+      // We treat all spells as if they have variants, unless they have only one image
+      console.log(`${moduleName} | Spell: ${item.name}`);
       if (
-        !Object.values(
+        Object.values(
           game.settings.get("tokenmagic", "autoTemplateSettings").overrides
-        ).find((o) => o.target === spell.spellName)
+        ).filter((o) => o.target === item.name).length <= 1
       )
         return;
 
-      // Add select element to dialog HTML
+      const spellAutoTemplates = Object.values(
+        game.settings.get("tokenmagic", "autoTemplateSettings").overrides
+      ).filter((o) => o.target === item.name);
+
+      let spellFormsGroups = {};
+      // We nee to group the forms by spell variant or a "no form" group
+      // Form is stored in the template.form field
+      for (const spell of spellAutoTemplates) {
+        const form = spell.form || "No Form";
+        if (!spellFormsGroups[form]) spellFormsGroups[form] = [];
+        spellFormsGroups[form].push(spell.texture);
+      }
+
+      // Add select element to dialog HTML, with optgroup for each form
       let options = "";
-      for (const form of Object.keys(spell.forms)) {
-        options += `<option value="${form}">${form}</option>`;
+      // add "Random" option
+      options += `<option value="">Random</option>`;
+      for (const [form, textures] of Object.entries(spellFormsGroups)) {
+        options += `<optgroup label="${form}">`;
+        for (const texture of textures) {
+          let textureName = texture.split("/").pop().split(".")[0];
+          textureName = textureName
+            .replace(/_/g, " ")
+            .split(" ")
+            .map((w) => {
+              return w[0].toUpperCase() + w.slice(1);
+            })
+            .join(" ");
+          options += `<option value="${texture}">${textureName}</option>`;
+        }
+        options += `</optgroup>`;
       }
       const snippet = `
             <div class="form-group">
@@ -76,22 +101,13 @@ Hooks.once("setup", async () => {
       html.find(`form`).append(snippet);
       html.css("height", "auto");
 
-      // Save random animation based on form to item flag; flag will be used in variantWrapper() to apply selected animation to template
-      const startingForm = html.find(`select.wms-select`).val();
-      await item.setFlag(
-        moduleName,
-        "selectedVariant",
-        randomPathFromForm(item.name, startingForm)
-      );
-
       html.find(`select.wms-select`).change(async (event) => {
         const selectedForm = $(event.currentTarget).val();
-
-        await item.setFlag(
-          moduleName,
-          "selectedVariant",
-          randomPathFromForm(item.name, selectedForm)
-        );
+        if (!selectedForm) {
+          await item.unsetFlag(moduleName, "selectedVariant");
+          return;
+        }
+        await item.setFlag(moduleName, "selectedVariant", selectedForm);
       });
     }
   );
@@ -119,40 +135,43 @@ Hooks.once("setup", async () => {
   for (const spell of listOfSpells) {
     for (const filenameRegexp of spell.filenames) {
       const targets = decodedPaths.filter((p) => p.match(filenameRegexp));
-      if (!targets.length) continue;
-
-      if (!spells.find((s) => s.spellName === spell.spellName)) {
-        spells.push({
-          spellName: spell.spellName,
-          paths: [...targets],
-        });
-      } else {
-        spells
-          .find((s) => s.spellName === spell.spellName)
-          .paths.push(...targets);
+      for (const target of targets) {
+        let idx = Object.keys(CONFIG.WildMagicSurge.overrides).length;
+        CONFIG.WildMagicSurge.overrides[idx] = {
+          target: spell.spellName,
+          texture: target,
+          opacity: game.settings.get(moduleName, "animationOpacity"),
+          tint: "",
+          preset: "NOFX",
+          tag: "wild-magic-surge",
+        };
+        spells.push({ spellName: spell.spellName, filenames: [target] });
       }
     }
   }
-  console.log(`${moduleName} | Found ${spells.length} assets`);
-  for (const spell of spells) {
-    // find the spell by name in the overrides object
-    let existing = Object.values(CONFIG.WildMagicSurge.overrides).find(
-      (o) => o.target === spell.spellName
-    );
-    if (existing) {
-      // if the spell is found, merge the new paths with the existing paths
-      existing.texture = [...existing.texture, ...spell.paths];
-    } else {
-      let idx = Object.keys(CONFIG.WildMagicSurge.overrides).length;
-      CONFIG.WildMagicSurge.overrides[idx] = {
-        target: spell.spellName,
-        texture: spell.paths,
-        opacity: game.settings.get(moduleName, "animationOpacity"),
-        tint: "",
-        preset: "NOFX",
-      };
+  // add variantSpells to CONFIG.WildMagicSurge.overrides
+  for (const spell of variantSpells) {
+    let spellName = spell.spellName;
+    for (const form in spell.forms) {
+      for (const regexp of spell.forms[form]) {
+        const targets = decodedPaths.filter((p) => p.match(regexp));
+        for (const target of targets) {
+          let idx = Object.keys(CONFIG.WildMagicSurge.overrides).length;
+          CONFIG.WildMagicSurge.overrides[idx] = {
+            target: spellName,
+            texture: target,
+            opacity: game.settings.get(moduleName, "animationOpacity"),
+            tint: "",
+            preset: "NOFX",
+            tag: "wild-magic-surge",
+            form: form,
+          };
+          spells.push({ spellName: spellName, filenames: [target] });
+        }
+      }
     }
   }
+
   console.log(`${moduleName} | Loaded ${spells.length} from assets`);
 
   loadModuleAssets();
@@ -166,7 +185,10 @@ Hooks.once("ready", async () => {
   );
   const newSettings = {
     categories: currentTMFXSettings.categories,
-    overrides: CONFIG.WildMagicSurge.overrides,
+    overrides: recaltulateOverrides(
+      currentTMFXSettings.overrides,
+      CONFIG.WildMagicSurge.overrides
+    ),
   };
   await game.settings.set("tokenmagic", "autoTemplateSettings", newSettings);
   const spellCount = Object.keys(CONFIG.WildMagicSurge.overrides).length;
@@ -174,6 +196,27 @@ Hooks.once("ready", async () => {
     `${moduleName} | Token Magic FX overrides set for ${spellCount} spells`
   );
 });
+
+// Helper function to recalculate the overrides object
+function recaltulateOverrides(currentOverrides, newOverrides) {
+  const overrides = { ...currentOverrides };
+  // clean old overrides from WMS from TMFX settings
+  for (const [key, value] of Object.entries(overrides)) {
+    if (value.tag === "wild-magic-surge") delete overrides[key];
+    else if (value.texture.includes("wild-magic-surge")) delete overrides[key];
+    // if value texture is array, check if any of the values include "wild-magic-surge"
+    else if (Array.isArray(value.texture)) {
+      const hasWMS = value.texture.some((t) => t.includes("wild-magic-surge"));
+      if (hasWMS) delete overrides[key];
+    }
+  }
+  for (const [key, value] of Object.entries(newOverrides)) {
+    // recalculating the key based of the number of current overrides
+    const newKey = Object.keys(overrides).length;
+    overrides[newKey] = value;
+  }
+  return overrides;
+}
 
 // When drawing a measuredTemplate, "randomly" select an animation from WMS to use and save a flag with that animation filepath
 // If the flag is already present, just use that filepath (for maintaining consistency after reload and for variantSpells)
@@ -209,10 +252,10 @@ function variantWrapper(wrapped, ...args) {
   const template = wrapped(...args);
   const [item] = args;
   const selectedVariant = item.getFlag(moduleName, "selectedVariant");
-  if (selectedVariant)
-    template.data.update({
-      [`flags.${moduleName}`]: { wildCardTexture: selectedVariant },
-    });
+  if (selectedVariant) console.log(template);
+  template.document.update({
+    [`flags.${moduleName}`]: { wildCardTexture: selectedVariant },
+  });
 
   return template;
 }
